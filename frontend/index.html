@@ -1,0 +1,936 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CPR Awareness — Relieve Foundation &amp; Rotary Club Pune</title>
+<link rel="icon" href="assets/favicon.svg">
+<style>
+  :root {
+    --bg: #0d1b2a;
+    --panel: #14273b;
+    --accent: #e63946;
+    --accent-dark: #c92e3a;
+    --text: #f1f5f9;
+    --text-dim: #b8c4d0;
+    --success: #2a9d5c;
+    --error: #e63946;
+    --focus: #ffd166;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100%;
+  }
+
+  .page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px 48px;
+  }
+
+  header.site-header {
+    text-align: center;
+    max-width: 720px;
+    margin-bottom: 20px;
+  }
+
+  header.site-header h1 {
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    margin: 0 0 6px;
+  }
+
+  header.site-header p.orgs {
+    margin: 0;
+    color: var(--text-dim);
+    font-size: 0.95rem;
+  }
+
+  .video-stage {
+    position: relative;
+    width: 100%;
+    max-width: 960px;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.45);
+  }
+
+  .video-stage iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .unmute-btn {
+    position: absolute;
+    bottom: 14px;
+    left: 14px;
+    z-index: 5;
+    background: rgba(0,0,0,0.65);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    backdrop-filter: blur(2px);
+  }
+
+  .unmute-btn:hover { background: rgba(0,0,0,0.8); }
+
+  .claim-btn-wrap {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    left: 14px;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  @media (min-width: 640px) {
+    .claim-btn-wrap {
+      justify-content: flex-end;
+      left: auto;
+    }
+  }
+
+  .claim-btn {
+    pointer-events: auto;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 22px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(230, 57, 70, 0.5);
+    animation: pulse 2.2s ease-in-out infinite;
+  }
+
+  .claim-btn:hover { background: var(--accent-dark); }
+
+  .claim-btn:focus-visible,
+  .unmute-btn:focus-visible,
+  button:focus-visible,
+  [href]:focus-visible,
+  input:focus-visible,
+  select:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 6px 20px rgba(230, 57, 70, 0.5); }
+    50% { transform: scale(1.045); box-shadow: 0 6px 28px rgba(230, 57, 70, 0.75); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .claim-btn { animation: none; }
+  }
+
+  .mute-note {
+    max-width: 960px;
+    width: 100%;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin-top: 10px;
+  }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 100;
+  }
+
+  .modal-overlay[hidden] { display: none; }
+
+  .modal {
+    background: var(--panel);
+    color: var(--text);
+    width: 100%;
+    max-width: 460px;
+    border-radius: 14px;
+    padding: 24px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .modal h2 {
+    margin: 0 0 4px;
+    font-size: 1.3rem;
+  }
+
+  .modal .sub {
+    margin: 0 0 18px;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+  }
+
+  .field {
+    margin-bottom: 14px;
+  }
+
+  .field label {
+    display: block;
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+    color: var(--text-dim);
+  }
+
+  .field input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #33475e;
+    background: #0e1e2e;
+    color: var(--text);
+    font-size: 0.95rem;
+  }
+
+  .field .err {
+    color: var(--error);
+    font-size: 0.78rem;
+    margin-top: 4px;
+    min-height: 1em;
+  }
+
+  .method-group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .method-card {
+    position: relative;
+    border: 2px solid #33475e;
+    background: #0e1e2e;
+    color: var(--text);
+    border-radius: 10px;
+    padding: 12px 6px;
+    text-align: center;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+
+  .method-card[aria-pressed="true"] {
+    border-color: var(--accent);
+    background: rgba(230, 57, 70, 0.15);
+  }
+
+  .method-card:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .method-card .tag {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.65rem;
+    background: #33475e;
+    color: var(--text-dim);
+    border-radius: 999px;
+    padding: 2px 6px;
+  }
+
+  .modal-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .submit-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 13px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .submit-btn:disabled {
+    background: #4b5a68;
+    cursor: not-allowed;
+  }
+
+  .close-btn {
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px solid #33475e;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+
+  .modal-status {
+    text-align: center;
+    padding: 20px 4px;
+  }
+
+  .modal-status .spinner {
+    width: 34px;
+    height: 34px;
+    border: 4px solid #33475e;
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .modal-status .spinner { animation: none; }
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .modal-status .icon {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+  }
+
+  .modal-status h3 { margin: 0 0 8px; }
+  .modal-status p { margin: 0 0 16px; color: var(--text-dim); }
+
+  .modal-status.error h3 { color: var(--error); }
+  .modal-status.success h3 { color: var(--success); }
+
+  .retry-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  footer.site-footer {
+    margin-top: 28px;
+    color: var(--text-dim);
+    font-size: 0.78rem;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <header class="site-header">
+    <h1>CPR Awareness — Relieve Foundation &amp; Rotary Club Pune</h1>
+    <p class="orgs">Watch. Learn. Claim your personalized CPR Awareness certificate.</p>
+  </header>
+
+  <div class="video-stage">
+    <iframe
+      id="ytPlayer"
+      src="https://www.youtube-nocookie.com/embed/hblmFtbyYKQ?autoplay=1&mute=1&loop=1&playlist=hblmFtbyYKQ&controls=1&rel=0&playsinline=1&enablejsapi=1"
+      title="CPR Awareness video"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+
+    <button type="button" id="unmuteBtn" class="unmute-btn" aria-pressed="false">
+      🔇 Tap to unmute
+    </button>
+
+    <div class="claim-btn-wrap">
+      <button type="button" id="claimBtn" class="claim-btn">
+        Claim your CPR certificate
+      </button>
+    </div>
+  </div>
+
+  <p class="mute-note">
+    The video starts muted because browsers block unmuted autoplay — tap "Unmute" on the video to hear it.
+  </p>
+
+  <footer class="site-footer">
+    Relieve Foundation &amp; Rotary Club Pune
+  </footer>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" hidden>
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+
+    <!-- FORM STATE -->
+    <div id="stateForm">
+      <h2 id="modalTitle">Claim your CPR certificate</h2>
+      <p class="sub">Fill in your details and choose how you'd like your certificate.</p>
+
+      <form id="certForm" novalidate>
+        <div class="field">
+          <label for="firstName">First name</label>
+          <input type="text" id="firstName" name="firstName" autocomplete="given-name" required>
+          <div class="err" id="errFirstName"></div>
+        </div>
+
+        <div class="field">
+          <label for="lastName">Last name</label>
+          <input type="text" id="lastName" name="lastName" autocomplete="family-name" required>
+          <div class="err" id="errLastName"></div>
+        </div>
+
+        <div class="field">
+          <label for="email">Email <span id="emailReqTag"></span></label>
+          <input type="email" id="email" name="email" autocomplete="email">
+          <div class="err" id="errEmail"></div>
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone number</label>
+          <input type="tel" id="phone" name="phone" autocomplete="tel" required>
+          <div class="err" id="errPhone"></div>
+        </div>
+
+        <div class="field">
+          <label id="methodLabel">Delivery method</label>
+          <div class="method-group" role="group" aria-labelledby="methodLabel">
+            <button type="button" class="method-card" id="methodEmail" data-method="email" aria-pressed="false">
+              Email
+            </button>
+            <button type="button" class="method-card" id="methodWhatsapp" data-method="whatsapp" aria-pressed="false" disabled aria-disabled="true">
+              WhatsApp
+              <span class="tag">Coming soon</span>
+            </button>
+            <button type="button" class="method-card" id="methodDownload" data-method="download" aria-pressed="false">
+              Download
+            </button>
+          </div>
+          <div class="err" id="errMethod"></div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="submit" class="submit-btn" id="submitBtn" disabled>Choose a delivery method</button>
+          <button type="button" class="close-btn" id="cancelBtn">Cancel</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- SUBMITTING STATE -->
+    <div id="stateSubmitting" class="modal-status" hidden>
+      <div class="spinner" aria-hidden="true"></div>
+      <h3>Working on it…</h3>
+      <p id="submittingMsg">Generating your certificate.</p>
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div id="stateSuccess" class="modal-status success" hidden role="status">
+      <div class="icon" aria-hidden="true">✅</div>
+      <h3 id="successHeading">Success</h3>
+      <p id="successMsg"></p>
+    </div>
+
+    <!-- ERROR STATE -->
+    <div id="stateError" class="modal-status error" hidden role="alert">
+      <div class="icon" aria-hidden="true">⚠️</div>
+      <h3>Something went wrong</h3>
+      <p id="errorMsg"></p>
+      <button type="button" class="retry-btn" id="retryBtn">Try again</button>
+      <div style="height:8px"></div>
+      <button type="button" class="close-btn" id="errorCloseBtn">Close</button>
+    </div>
+
+  </div>
+</div>
+
+<div id="liveRegion" class="visually-hidden" aria-live="polite"></div>
+
+<!-- jsPDF via CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+(function () {
+  "use strict";
+
+  // ---- Single clearly-marked backend URL constant ----
+  const BACKEND_URL = "https://REPLACE-ME.onrender.com";
+
+  // ---------- Unmute control ----------
+  const ytPlayer = document.getElementById("ytPlayer");
+  const unmuteBtn = document.getElementById("unmuteBtn");
+  let muted = true;
+
+  function postToPlayer(func, args) {
+    try {
+      ytPlayer.contentWindow.postMessage(
+        JSON.stringify({ event: "command", func: func, args: args || [] }),
+        "*"
+      );
+    } catch (e) { /* no-op */ }
+  }
+
+  unmuteBtn.addEventListener("click", function () {
+    muted = !muted;
+    if (muted) {
+      postToPlayer("mute");
+      unmuteBtn.textContent = "🔇 Tap to unmute";
+      unmuteBtn.setAttribute("aria-pressed", "false");
+    } else {
+      postToPlayer("unMute");
+      postToPlayer("playVideo");
+      unmuteBtn.textContent = "🔊 Sound on";
+      unmuteBtn.setAttribute("aria-pressed", "true");
+    }
+  });
+
+  // ---------- Modal open/close + focus trap ----------
+  const overlay = document.getElementById("modalOverlay");
+  const modal = document.getElementById("modal");
+  const claimBtn = document.getElementById("claimBtn");
+  const cancelBtn = document.getElementById("cancelBtn");
+  const errorCloseBtn = document.getElementById("errorCloseBtn");
+
+  const stateForm = document.getElementById("stateForm");
+  const stateSubmitting = document.getElementById("stateSubmitting");
+  const stateSuccess = document.getElementById("stateSuccess");
+  const stateError = document.getElementById("stateError");
+
+  let lastFocusedEl = null;
+  let autoCloseTimer = null;
+
+  function showState(name) {
+    stateForm.hidden = name !== "form";
+    stateSubmitting.hidden = name !== "submitting";
+    stateSuccess.hidden = name !== "success";
+    stateError.hidden = name !== "error";
+  }
+
+  function getFocusable() {
+    return Array.from(modal.querySelectorAll(
+      'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    )).filter(el => el.offsetParent !== null);
+  }
+
+  function openModal() {
+    lastFocusedEl = document.activeElement;
+    overlay.hidden = false;
+    resetForm();
+    showState("form");
+    document.addEventListener("keydown", onModalKeydown);
+    const focusables = getFocusable();
+    if (focusables.length) focusables[0].focus();
+  }
+
+  function closeModal() {
+    if (autoCloseTimer) { clearTimeout(autoCloseTimer); autoCloseTimer = null; }
+    overlay.hidden = true;
+    document.removeEventListener("keydown", onModalKeydown);
+    if (lastFocusedEl && typeof lastFocusedEl.focus === "function") {
+      lastFocusedEl.focus();
+    }
+  }
+
+  function onModalKeydown(e) {
+    if (e.key === "Escape") {
+      e.preventDefault();
+      closeModal();
+      return;
+    }
+    if (e.key === "Tab") {
+      const focusables = getFocusable();
+      if (!focusables.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  }
+
+  claimBtn.addEventListener("click", openModal);
+  cancelBtn.addEventListener("click", closeModal);
+  errorCloseBtn.addEventListener("click", closeModal);
+  overlay.addEventListener("click", function (e) {
+    if (e.target === overlay) closeModal();
+  });
+
+  // ---------- Form logic ----------
+  const form = document.getElementById("certForm");
+  const firstNameEl = document.getElementById("firstName");
+  const lastNameEl = document.getElementById("lastName");
+  const emailEl = document.getElementById("email");
+  const phoneEl = document.getElementById("phone");
+  const emailReqTag = document.getElementById("emailReqTag");
+  const submitBtn = document.getElementById("submitBtn");
+
+  const methodButtons = Array.from(document.querySelectorAll(".method-card"));
+  let selectedMethod = null;
+
+  methodButtons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      if (btn.disabled) return;
+      selectedMethod = btn.dataset.method;
+      methodButtons.forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+      updateEmailRequirement();
+      updateSubmitLabel();
+      validateAll(false);
+    });
+  });
+
+  function updateEmailRequirement() {
+    const required = selectedMethod === "email";
+    emailReqTag.textContent = required ? "(required)" : "(optional)";
+    if (required) {
+      emailEl.setAttribute("required", "required");
+    } else {
+      emailEl.removeAttribute("required");
+    }
+  }
+
+  function updateSubmitLabel() {
+    if (selectedMethod === "email") {
+      submitBtn.textContent = "Email my certificate";
+    } else if (selectedMethod === "download") {
+      submitBtn.textContent = "Download my certificate";
+    } else {
+      submitBtn.textContent = "Choose a delivery method";
+    }
+  }
+
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const PHONE_RE = /^[0-9+()\-.\s]{6,20}$/;
+
+  function setErr(id, msg) {
+    document.getElementById(id).textContent = msg || "";
+  }
+
+  function validateAll(showErrors) {
+    let valid = true;
+
+    if (!firstNameEl.value.trim()) {
+      valid = false;
+      if (showErrors) setErr("errFirstName", "First name is required.");
+    } else if (showErrors) setErr("errFirstName", "");
+
+    if (!lastNameEl.value.trim()) {
+      valid = false;
+      if (showErrors) setErr("errLastName", "Last name is required.");
+    } else if (showErrors) setErr("errLastName", "");
+
+    const emailVal = emailEl.value.trim();
+    if (selectedMethod === "email") {
+      if (!emailVal) {
+        valid = false;
+        if (showErrors) setErr("errEmail", "Email is required for email delivery.");
+      } else if (!EMAIL_RE.test(emailVal)) {
+        valid = false;
+        if (showErrors) setErr("errEmail", "Enter a valid email address.");
+      } else if (showErrors) setErr("errEmail", "");
+    } else {
+      if (emailVal && !EMAIL_RE.test(emailVal)) {
+        valid = false;
+        if (showErrors) setErr("errEmail", "Enter a valid email address, or leave it blank.");
+      } else if (showErrors) setErr("errEmail", "");
+    }
+
+    if (!phoneEl.value.trim()) {
+      valid = false;
+      if (showErrors) setErr("errPhone", "Phone number is required.");
+    } else if (!PHONE_RE.test(phoneEl.value.trim())) {
+      valid = false;
+      if (showErrors) setErr("errPhone", "Enter a valid phone number.");
+    } else if (showErrors) setErr("errPhone", "");
+
+    if (!selectedMethod) {
+      valid = false;
+      if (showErrors) setErr("errMethod", "Choose Email or Download.");
+    } else if (showErrors) setErr("errMethod", "");
+
+    submitBtn.disabled = !valid;
+    return valid;
+  }
+
+  [firstNameEl, lastNameEl, emailEl, phoneEl].forEach(function (el) {
+    el.addEventListener("input", function () { validateAll(false); });
+    el.addEventListener("blur", function () { validateAll(true); });
+  });
+
+  function resetForm() {
+    form.reset();
+    selectedMethod = null;
+    methodButtons.forEach(b => b.setAttribute("aria-pressed", "false"));
+    updateEmailRequirement();
+    updateSubmitLabel();
+    ["errFirstName", "errLastName", "errEmail", "errPhone", "errMethod"].forEach(id => setErr(id, ""));
+    submitBtn.disabled = true;
+  }
+
+  // ---------- Certificate PDF generation ----------
+  function buildCertificatePdf(firstName, lastName, issuedAtDate) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
+
+    const pageW = doc.internal.pageSize.getWidth();
+    const pageH = doc.internal.pageSize.getHeight();
+    const margin = 36;
+
+    // Border
+    doc.setDrawColor(20, 39, 59);
+    doc.setLineWidth(3);
+    doc.rect(margin, margin, pageW - margin * 2, pageH - margin * 2);
+    doc.setLineWidth(0.75);
+    doc.rect(margin + 8, margin + 8, pageW - (margin + 8) * 2, pageH - (margin + 8) * 2);
+
+    // Logo placeholder boxes (top-left / top-right) — plain boxes, no fabricated art
+    const logoSize = 56;
+    doc.setDrawColor(120, 120, 120);
+    doc.setLineWidth(1);
+    doc.rect(margin + 24, margin + 20, logoSize, logoSize);
+    doc.setFontSize(8);
+    doc.setTextColor(120, 120, 120);
+    doc.text("LOGO", margin + 24 + logoSize / 2, margin + 20 + logoSize / 2, { align: "center", baseline: "middle" });
+
+    doc.rect(pageW - margin - 24 - logoSize, margin + 20, logoSize, logoSize);
+    doc.text("LOGO", pageW - margin - 24 - logoSize / 2, margin + 20 + logoSize / 2, { align: "center", baseline: "middle" });
+
+    // Title
+    doc.setTextColor(20, 39, 59);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(30);
+    doc.text("Certificate of CPR Awareness", pageW / 2, 130, { align: "center" });
+
+    // Attestation line
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(14);
+    doc.setTextColor(60, 60, 60);
+    doc.text("This is to certify that", pageW / 2, 175, { align: "center" });
+
+    // Recipient name — wrap/shrink for long names
+    let fullName = (firstName + " " + lastName).trim();
+    doc.setFont("helvetica", "bold");
+    let nameFontSize = 28;
+    doc.setFontSize(nameFontSize);
+    const maxNameWidth = pageW - margin * 4;
+    while (doc.getTextWidth(fullName) > maxNameWidth && nameFontSize > 14) {
+      nameFontSize -= 1;
+      doc.setFontSize(nameFontSize);
+    }
+    doc.setTextColor(230, 57, 70);
+    doc.text(fullName, pageW / 2, 215, { align: "center", maxWidth: maxNameWidth });
+
+    // Body line
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(13);
+    doc.setTextColor(60, 60, 60);
+    const bodyLines = doc.splitTextToSize(
+      "has participated in and completed a CPR Awareness session, demonstrating an understanding of the basic principles of cardiopulmonary resuscitation.",
+      pageW - margin * 5
+    );
+    doc.text(bodyLines, pageW / 2, 250, { align: "center" });
+
+    // Org names
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(13);
+    doc.setTextColor(20, 39, 59);
+    doc.text("Relieve Foundation", pageW / 2 - 90, 300, { align: "center" });
+    doc.text("Rotary Club Pune", pageW / 2 + 90, 300, { align: "center" });
+
+    // Issue date
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(11);
+    doc.setTextColor(90, 90, 90);
+    const dateStr = issuedAtDate.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+    doc.text("Date of issue: " + dateStr, pageW / 2, 325, { align: "center" });
+
+    // Signature blocks
+    const sigY = pageH - margin - 50;
+    doc.setDrawColor(90, 90, 90);
+    doc.setLineWidth(0.75);
+
+    // Left signature
+    doc.line(margin + 40, sigY, margin + 220, sigY);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(11);
+    doc.setTextColor(20, 39, 59);
+    doc.text("J S Hiremath", margin + 130, sigY + 16, { align: "center" });
+    doc.setFontSize(9);
+    doc.setTextColor(120, 120, 120);
+    doc.text("Signature", margin + 130, sigY + 30, { align: "center" });
+
+    // Right signature
+    const rx1 = pageW - margin - 220;
+    const rx2 = pageW - margin - 40;
+    doc.setDrawColor(90, 90, 90);
+    doc.line(rx1, sigY, rx2, sigY);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(11);
+    doc.setTextColor(20, 39, 59);
+    doc.text("Dr Kinjal Goyal", (rx1 + rx2) / 2, sigY + 16, { align: "center" });
+    doc.setFontSize(9);
+    doc.setTextColor(120, 120, 120);
+    doc.text("Signature", (rx1 + rx2) / 2, sigY + 30, { align: "center" });
+
+    return doc;
+  }
+
+  function pdfToBase64NoPrefix(doc) {
+    const dataUri = doc.output("datauristring");
+    const commaIdx = dataUri.indexOf(",");
+    return dataUri.substring(commaIdx + 1);
+  }
+
+  // ---------- Submit flow ----------
+  const submittingMsg = document.getElementById("submittingMsg");
+  const successHeading = document.getElementById("successHeading");
+  const successMsg = document.getElementById("successMsg");
+  const errorMsg = document.getElementById("errorMsg");
+  const retryBtn = document.getElementById("retryBtn");
+  const liveRegion = document.getElementById("liveRegion");
+
+  let lastSubmission = null;
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!validateAll(true)) return;
+    doSubmit();
+  });
+
+  retryBtn.addEventListener("click", function () {
+    if (lastSubmission) {
+      showState("submitting");
+      performDelivery(lastSubmission);
+    }
+  });
+
+  function doSubmit() {
+    submitBtn.disabled = true;
+    showState("submitting");
+    submittingMsg.textContent = "Generating your certificate.";
+
+    const firstName = firstNameEl.value.trim();
+    const lastName = lastNameEl.value.trim();
+    const email = emailEl.value.trim();
+    const phone = phoneEl.value.trim();
+    const method = selectedMethod;
+    const issuedAtDate = new Date();
+    const issuedAt = issuedAtDate.toISOString();
+
+    let doc;
+    try {
+      doc = buildCertificatePdf(firstName, lastName, issuedAtDate);
+    } catch (err) {
+      showErrorState("We couldn't generate your certificate. Please try again.");
+      return;
+    }
+
+    const submission = { firstName, lastName, email, phone, method, doc, issuedAt };
+    lastSubmission = submission;
+    performDelivery(submission);
+  }
+
+  function performDelivery(submission) {
+    const { firstName, lastName, email, phone, method, doc, issuedAt } = submission;
+
+    if (method === "download") {
+      submittingMsg.textContent = "Preparing your download.";
+      try {
+        const filename = "CPR-Certificate-" + safeFileNamePart(firstName) + "-" + safeFileNamePart(lastName) + ".pdf";
+        doc.save(filename);
+      } catch (err) {
+        showErrorState("We couldn't start the download. Please try again.");
+        return;
+      }
+
+      // Fire-and-forget logging; does not block the success state.
+      fetch(BACKEND_URL + "/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ firstName, lastName, email, phone, method: "download", issuedAt })
+      }).catch(function () { /* logging failure does not block download success */ });
+
+      showSuccessState("Downloaded", "Downloaded. Check your device's downloads.");
+      return;
+    }
+
+    if (method === "email") {
+      submittingMsg.textContent = "Sending your certificate.";
+      const pdfBase64 = pdfToBase64NoPrefix(doc);
+
+      fetch(BACKEND_URL + "/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ firstName, lastName, email, phone, method: "email", pdfBase64, issuedAt })
+      })
+        .then(function (res) {
+          return res.json().catch(function () { return {}; }).then(function (data) {
+            return { ok: res.ok && data.ok, data: data };
+          });
+        })
+        .then(function (result) {
+          if (result.ok) {
+            showSuccessState("Sent", "Sent. Check your inbox (and spam).");
+          } else {
+            showErrorState("We couldn't send it right now. Try again, or choose Download.");
+          }
+        })
+        .catch(function () {
+          showErrorState("We couldn't send it right now. Try again, or choose Download.");
+        });
+      return;
+    }
+  }
+
+  function safeFileNamePart(s) {
+    return (s || "").replace(/[^a-zA-Z0-9\-]+/g, "") || "Certificate";
+  }
+
+  function showSuccessState(heading, message) {
+    successHeading.textContent = heading;
+    successMsg.textContent = message;
+    showState("success");
+    liveRegion.textContent = message;
+    autoCloseTimer = setTimeout(closeModal, 2500);
+  }
+
+  function showErrorState(message) {
+    errorMsg.textContent = message;
+    showState("error");
+    liveRegion.textContent = message;
+    submitBtn.disabled = false;
+  }
+})();
+</script>
+</body>
+</html>

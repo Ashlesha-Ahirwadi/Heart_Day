@@ -1,0 +1,18 @@
+{
+  "name": "cpr-certificate-backend",
+  "version": "1.0.0",
+  "description": "Tiny Express backend for the CPR Awareness certificate site — emails the certificate via SendGrid and logs submissions to a Google Sheet via Apps Script.",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^8.1.3",
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}
