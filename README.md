@@ -76,8 +76,30 @@ environment variables:
    permission to edit this Sheet — click through the "unverified app"
    screen via **Advanced → Go to (project name)**, that's expected for
    your own script).
-10. Copy the **Web app URL** it gives you — this is your
-    `SHEET_WEBHOOK_URL`. Keep this tab open, you'll need it in step 2.
+10. **Important — the deploy-time authorization prompt is not always
+    enough on its own.** Before trusting the deployed URL, manually
+    trigger and confirm Sheets access from inside the editor:
+    - Select **`testSheetAccess`** in the function dropdown next to the
+      Run button.
+    - Click **Run ▶**. Approve any authorization prompt that appears.
+    - Open **Execution log** (View menu, or the log panel) and confirm it
+      shows `Success — sheet name: ...`. If it errors instead, the
+      script still can't reach the Sheet — re-check the `SHEET_ID` and
+      that this Google account owns/has edit access to the Sheet.
+    - Once that succeeds, go to **Deploy → Manage deployments** → pencil
+      icon → **New version** → **Deploy**, so the live URL picks up the
+      now-authorized state.
+11. Copy the **Web app URL** — this is your `SHEET_WEBHOOK_URL`. Keep this
+    tab open, you'll need it in step 2.
+
+> **Known cosmetic glitch:** after POSTing to the deployed URL, you may
+> see Google's own "Sorry, unable to open the file at this time" error
+> page instead of a clean `{"ok":true}` response — this happens in
+> browsers and tools like `curl` alike. It's a flaky failure in how
+> Google serves back the confirmation page, **not** a failure of the
+> logging itself — `doPost` has already run and the row is already
+> appended by the time that page appears. If you see it, check the Sheet
+> directly rather than trusting the response body.
 
 > **Note on exposure:** per the PRD, this endpoint is deployed with
 > "Anyone" access because that's what a Google Apps Script web app requires
