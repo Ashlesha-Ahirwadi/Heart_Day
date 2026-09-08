@@ -54,18 +54,30 @@ environment variables:
    ```
    Timestamp | First name | Last name | Email | Phone | Method
    ```
-3. Open **Extensions → Apps Script**.
-4. Delete any starter code and paste in the contents of
+3. Copy the Sheet's ID from its URL — the long string between `/d/` and
+   `/edit` (e.g. `docs.google.com/spreadsheets/d/`**`THIS_PART`**`/edit`).
+
+   `apps-script/Code.gs` in this repo is already set up as a **standalone**
+   script that opens the Sheet by ID (`SpreadsheetApp.openById(...)`)
+   rather than relying on being launched from inside the Sheet via
+   Extensions → Apps Script — that menu can hit a Google Drive editor
+   glitch ("Sorry, unable to open the file at this time") for some
+   accounts/browsers. If your Sheet ID differs from what's already in the
+   file, update the `SHEET_ID` constant near the top before deploying.
+4. Go to **[script.google.com](https://script.google.com) → New project**.
+5. Delete any starter code and paste in the full contents of
    `apps-script/Code.gs` from this repo.
-5. Click **Deploy → New deployment**.
-6. Under "Select type," choose **Web app**.
-7. Set:
+6. Click **Deploy → New deployment**.
+7. Under "Select type," choose **Web app**.
+8. Set:
    - **Execute as:** Me
    - **Who has access:** Anyone
-8. Click **Deploy**, and authorize the script when prompted (it needs
-   permission to edit this Sheet).
-9. Copy the **Web app URL** it gives you — this is your
-   `SHEET_WEBHOOK_URL`. Keep this tab open, you'll need it in step 2.
+9. Click **Deploy**, and authorize the script when prompted (it needs
+   permission to edit this Sheet — click through the "unverified app"
+   screen via **Advanced → Go to (project name)**, that's expected for
+   your own script).
+10. Copy the **Web app URL** it gives you — this is your
+    `SHEET_WEBHOOK_URL`. Keep this tab open, you'll need it in step 2.
 
 > **Note on exposure:** per the PRD, this endpoint is deployed with
 > "Anyone" access because that's what a Google Apps Script web app requires
