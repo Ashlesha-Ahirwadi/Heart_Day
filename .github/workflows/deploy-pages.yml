@@ -1,3 +1,4 @@
+# Deploys the /frontend folder as the GitHub Pages site.
 name: Deploy frontend to GitHub Pages
 
 on:
