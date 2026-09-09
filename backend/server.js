@@ -157,7 +157,7 @@ Every person who knows the basics of CPR makes their community a little
 safer — thank you for being one of them.
 
 Warm regards,
-Relieve Foundation & Rotary Club Pune
+Revive Heart Foundation & Rotary Club Laxmi Raad Pune
 `;
 
   const msg = {

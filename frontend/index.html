@@ -3,19 +3,38 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CPR Awareness — Relieve Foundation &amp; Rotary Club Pune</title>
+<title>CPR Awareness — Revive Heart Foundation &amp; Rotary Club Laxmi Raad Pune</title>
 <link rel="icon" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0d1b2a;
-    --panel: #14273b;
-    --accent: #e63946;
-    --accent-dark: #c92e3a;
-    --text: #f1f5f9;
-    --text-dim: #b8c4d0;
-    --success: #2a9d5c;
-    --error: #e63946;
-    --focus: #ffd166;
+    --bg-1: #05070d;
+    --bg-2: #0d1526;
+    --surface: #12192b;
+    --surface-2: #182236;
+    --surface-3: #1f2b42;
+    --border: rgba(148, 163, 184, 0.14);
+    --border-strong: rgba(148, 163, 184, 0.28);
+    --text-primary: #f7f9fc;
+    --text-secondary: #a7b2c6;
+    --text-tertiary: #6e7994;
+    --accent: #e11d48;
+    --accent-hover: #be123c;
+    --accent-soft: rgba(225, 29, 72, 0.14);
+    --accent-soft-strong: rgba(225, 29, 72, 0.28);
+    --success: #10b981;
+    --success-soft: rgba(16, 185, 129, 0.14);
+    --error: #fb7185;
+    --error-soft: rgba(251, 113, 133, 0.14);
+    --focus: #38bdf8;
+    --radius-sm: 9px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+    --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.38);
+    --shadow-lg: 0 28px 72px rgba(0, 0, 0, 0.55);
   }
 
   * { box-sizing: border-box; }
@@ -23,10 +42,19 @@
   html, body {
     margin: 0;
     padding: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     min-height: 100%;
+  }
+
+  body {
+    background:
+      radial-gradient(1100px 560px at 18% -8%, rgba(225, 29, 72, 0.16), transparent 60%),
+      radial-gradient(900px 520px at 100% 0%, rgba(56, 189, 248, 0.08), transparent 55%),
+      linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+    background-attachment: fixed;
+    color: var(--text-primary);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   .page {
@@ -34,35 +62,95 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 24px 16px 48px;
+    padding: 48px 20px 56px;
   }
 
+  /* ---------- Header ---------- */
   header.site-header {
     text-align: center;
-    max-width: 720px;
-    margin-bottom: 20px;
+    max-width: 700px;
+    margin-bottom: 34px;
   }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-soft-strong);
+    border-radius: 999px;
+    padding: 6px 14px;
+    margin-bottom: 18px;
+  }
+
+  .eyebrow svg { width: 14px; height: 14px; flex-shrink: 0; }
 
   header.site-header h1 {
-    font-size: clamp(1.3rem, 3vw, 2rem);
-    margin: 0 0 6px;
+    font-size: clamp(1.7rem, 4vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin: 0 0 12px;
+    color: var(--text-primary);
   }
 
-  header.site-header p.orgs {
-    margin: 0;
-    color: var(--text-dim);
-    font-size: 0.95rem;
+  header.site-header p.tagline {
+    margin: 0 0 18px;
+    color: var(--text-secondary);
+    font-size: 1.02rem;
+    line-height: 1.5;
+  }
+
+  .presented-by {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 0.82rem;
+    color: var(--text-tertiary);
+  }
+
+  .presented-by .label {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    font-size: 0.7rem;
+  }
+
+  .presented-by .org {
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  .presented-by .sep {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--text-tertiary);
+    flex-shrink: 0;
+  }
+
+  /* ---------- Video hero ---------- */
+  .hero {
+    width: 100%;
+    max-width: 980px;
   }
 
   .video-stage {
     position: relative;
     width: 100%;
-    max-width: 960px;
     aspect-ratio: 16 / 9;
     background: #000;
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.45);
+    border: 1px solid var(--border-strong);
+    box-shadow: var(--shadow-lg);
   }
 
   .video-stage iframe {
@@ -75,29 +163,36 @@
 
   .unmute-btn {
     position: absolute;
-    bottom: 14px;
-    left: 14px;
+    bottom: 16px;
+    left: 16px;
     z-index: 5;
-    background: rgba(0,0,0,0.65);
+    background: rgba(8, 12, 22, 0.72);
     color: #fff;
-    border: 1px solid rgba(255,255,255,0.5);
+    border: 1px solid rgba(255, 255, 255, 0.22);
     border-radius: 999px;
-    padding: 8px 14px;
+    padding: 9px 16px;
+    font: inherit;
     font-size: 0.85rem;
+    font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 6px;
-    backdrop-filter: blur(2px);
+    gap: 7px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: background 0.15s ease, border-color 0.15s ease;
   }
 
-  .unmute-btn:hover { background: rgba(0,0,0,0.8); }
+  .unmute-btn:hover {
+    background: rgba(8, 12, 22, 0.9);
+    border-color: rgba(255, 255, 255, 0.36);
+  }
 
   .claim-btn-wrap {
     position: absolute;
-    top: 14px;
-    right: 14px;
-    left: 14px;
+    top: 16px;
+    right: 16px;
+    left: 16px;
     z-index: 5;
     display: flex;
     justify-content: center;
@@ -113,19 +208,32 @@
 
   .claim-btn {
     pointer-events: auto;
-    background: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
     color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 14px 22px;
-    font-size: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    padding: 13px 22px;
+    font: inherit;
+    font-size: 0.96rem;
     font-weight: 700;
+    letter-spacing: -0.01em;
     cursor: pointer;
-    box-shadow: 0 6px 20px rgba(230, 57, 70, 0.5);
-    animation: pulse 2.2s ease-in-out infinite;
+    box-shadow: 0 8px 24px rgba(225, 29, 72, 0.45), 0 0 0 0 rgba(225, 29, 72, 0.5);
+    animation: pulse-glow 2.4s ease-in-out infinite;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
 
-  .claim-btn:hover { background: var(--accent-dark); }
+  .claim-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+  .claim-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 30px rgba(225, 29, 72, 0.55);
+  }
+
+  .claim-btn:active { transform: translateY(0); }
 
   .claim-btn:focus-visible,
   .unmute-btn:focus-visible,
@@ -137,9 +245,9 @@
     outline-offset: 2px;
   }
 
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); box-shadow: 0 6px 20px rgba(230, 57, 70, 0.5); }
-    50% { transform: scale(1.045); box-shadow: 0 6px 28px rgba(230, 57, 70, 0.75); }
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 8px 24px rgba(225, 29, 72, 0.45), 0 0 0 0 rgba(225, 29, 72, 0.35); }
+    50% { box-shadow: 0 8px 24px rgba(225, 29, 72, 0.45), 0 0 0 9px rgba(225, 29, 72, 0); }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -147,162 +255,281 @@
   }
 
   .mute-note {
-    max-width: 960px;
+    max-width: 980px;
     width: 100%;
     text-align: center;
-    color: var(--text-dim);
+    color: var(--text-tertiary);
     font-size: 0.85rem;
-    margin-top: 10px;
+    line-height: 1.5;
+    margin-top: 16px;
+    padding: 0 12px;
   }
 
-  /* Modal */
+  footer.site-footer {
+    margin-top: 44px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+  }
+
+  footer.site-footer .label {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    margin-bottom: 8px;
+  }
+
+  footer.site-footer .orgs {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  /* ---------- Modal ---------- */
   .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.6);
+    background: rgba(2, 4, 9, 0.72);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 16px;
+    padding: 20px;
     z-index: 100;
   }
 
   .modal-overlay[hidden] { display: none; }
 
   .modal {
-    background: var(--panel);
-    color: var(--text);
+    background: var(--surface);
+    background-image: linear-gradient(180deg, var(--surface-2) 0%, var(--surface) 140px);
+    color: var(--text-primary);
     width: 100%;
     max-width: 460px;
-    border-radius: 14px;
-    padding: 24px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-strong);
+    padding: 28px 26px;
     max-height: 90vh;
     overflow-y: auto;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    box-shadow: var(--shadow-lg);
+    animation: modal-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes modal-in {
+    from { opacity: 0; transform: translateY(10px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .modal { animation: none; }
   }
 
   .modal h2 {
-    margin: 0 0 4px;
-    font-size: 1.3rem;
+    margin: 0 0 6px;
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
   }
 
   .modal .sub {
-    margin: 0 0 18px;
-    color: var(--text-dim);
+    margin: 0 0 22px;
+    color: var(--text-secondary);
     font-size: 0.9rem;
+    line-height: 1.5;
   }
 
-  .field {
-    margin-bottom: 14px;
-  }
+  .field { margin-bottom: 16px; }
 
   .field label {
     display: block;
-    font-size: 0.85rem;
-    margin-bottom: 5px;
-    color: var(--text-dim);
+    font-size: 0.76rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 7px;
+  }
+
+  .field label #emailReqTag {
+    text-transform: none;
+    font-weight: 500;
+    letter-spacing: normal;
+    color: var(--text-tertiary);
   }
 
   .field input {
     width: 100%;
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid #33475e;
-    background: #0e1e2e;
-    color: var(--text);
+    padding: 11px 13px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-strong);
+    background: var(--bg-1);
+    color: var(--text-primary);
+    font: inherit;
     font-size: 0.95rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .field input::placeholder { color: var(--text-tertiary); }
+
+  .field input:focus {
+    outline: none;
+    border-color: var(--focus);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18);
   }
 
   .field .err {
     color: var(--error);
     font-size: 0.78rem;
-    margin-top: 4px;
+    margin-top: 5px;
     min-height: 1em;
   }
 
   .method-group {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-bottom: 16px;
+    gap: 9px;
+    margin-bottom: 18px;
   }
 
   .method-card {
     position: relative;
-    border: 2px solid #33475e;
-    background: #0e1e2e;
-    color: var(--text);
-    border-radius: 10px;
-    padding: 12px 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    border: 1.5px solid var(--border-strong);
+    background: var(--surface-2);
+    color: var(--text-secondary);
+    border-radius: var(--radius-md);
+    padding: 14px 6px 12px;
     text-align: center;
-    font-size: 0.85rem;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
     cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease, transform 0.1s ease;
   }
+
+  .method-card svg { width: 20px; height: 20px; }
+
+  .method-card:hover:not(:disabled) {
+    border-color: var(--border-strong);
+    background: var(--surface-3);
+  }
+
+  .method-card:active:not(:disabled) { transform: scale(0.98); }
 
   .method-card[aria-pressed="true"] {
     border-color: var(--accent);
-    background: rgba(230, 57, 70, 0.15);
+    background: var(--accent-soft);
+    color: var(--text-primary);
   }
 
+  .method-card[aria-pressed="true"] svg { color: var(--accent); }
+
+  .method-card .check {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .method-card .check svg { width: 11px; height: 11px; }
+
+  .method-card[aria-pressed="true"] .check { display: flex; }
+
   .method-card:disabled {
-    opacity: 0.55;
+    opacity: 0.5;
     cursor: not-allowed;
   }
 
   .method-card .tag {
-    display: block;
-    margin-top: 4px;
-    font-size: 0.65rem;
-    background: #33475e;
-    color: var(--text-dim);
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    background: var(--surface-3);
+    color: var(--text-tertiary);
     border-radius: 999px;
-    padding: 2px 6px;
+    padding: 2px 7px;
   }
 
   .modal-actions {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    margin-top: 4px;
   }
 
   .submit-btn {
-    background: var(--accent);
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
     color: #fff;
     border: none;
-    border-radius: 10px;
-    padding: 13px;
-    font-size: 1rem;
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    font: inherit;
+    font-size: 0.98rem;
     font-weight: 700;
+    letter-spacing: -0.01em;
     cursor: pointer;
+    box-shadow: 0 6px 20px rgba(225, 29, 72, 0.35);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
   }
 
+  .submit-btn:hover:not(:disabled) { transform: translateY(-1px); }
+
   .submit-btn:disabled {
-    background: #4b5a68;
+    background: var(--surface-3);
+    color: var(--text-tertiary);
+    box-shadow: none;
     cursor: not-allowed;
   }
 
   .close-btn {
     background: transparent;
-    color: var(--text-dim);
-    border: 1px solid #33475e;
-    border-radius: 10px;
-    padding: 10px;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    padding: 11px;
+    font: inherit;
     font-size: 0.9rem;
+    font-weight: 600;
     cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
   }
 
+  .close-btn:hover {
+    background: var(--surface-2);
+    color: var(--text-primary);
+  }
+
+  /* ---------- Modal status states ---------- */
   .modal-status {
     text-align: center;
-    padding: 20px 4px;
+    padding: 24px 4px 6px;
   }
 
   .modal-status .spinner {
-    width: 34px;
-    height: 34px;
-    border: 4px solid #33475e;
+    width: 36px;
+    height: 36px;
+    border: 3px solid var(--surface-3);
     border-top-color: var(--accent);
     border-radius: 50%;
-    margin: 0 auto 16px;
+    margin: 0 auto 18px;
     animation: spin 0.8s linear infinite;
   }
 
@@ -312,13 +539,33 @@
 
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  .modal-status .icon {
-    font-size: 2.2rem;
-    margin-bottom: 10px;
+  .modal-status .icon-badge {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
   }
 
-  .modal-status h3 { margin: 0 0 8px; }
-  .modal-status p { margin: 0 0 16px; color: var(--text-dim); }
+  .modal-status .icon-badge svg { width: 26px; height: 26px; }
+
+  .modal-status.success .icon-badge { background: var(--success-soft); color: var(--success); }
+  .modal-status.error .icon-badge { background: var(--error-soft); color: var(--error); }
+
+  .modal-status h3 {
+    margin: 0 0 8px;
+    font-size: 1.15rem;
+    font-weight: 800;
+  }
+
+  .modal-status p {
+    margin: 0 0 18px;
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
 
   .modal-status.error h3 { color: var(--error); }
   .modal-status.success h3 { color: var(--success); }
@@ -327,9 +574,11 @@
     background: var(--accent);
     color: #fff;
     border: none;
-    border-radius: 10px;
-    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    padding: 11px 20px;
+    font: inherit;
     font-size: 0.9rem;
+    font-weight: 700;
     cursor: pointer;
   }
 
@@ -340,49 +589,56 @@
     clip: rect(0 0 0 0);
     white-space: nowrap;
   }
-
-  footer.site-footer {
-    margin-top: 28px;
-    color: var(--text-dim);
-    font-size: 0.78rem;
-    text-align: center;
-  }
 </style>
 </head>
 <body>
 
 <div class="page">
   <header class="site-header">
-    <h1>CPR Awareness — Relieve Foundation &amp; Rotary Club Pune</h1>
-    <p class="orgs">Watch. Learn. Claim your personalized CPR Awareness certificate.</p>
+    <span class="eyebrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+      CPR Awareness Program
+    </span>
+    <h1>Learn CPR. Save a life. Get certified.</h1>
+    <p class="tagline">Watch the short awareness video below, then claim your personalized Certificate of CPR Awareness.</p>
+    <div class="presented-by">
+      <span class="label">Presented by</span>
+      <span class="org">Revive Heart Foundation</span>
+      <span class="sep" aria-hidden="true"></span>
+      <span class="org">Rotary Club Laxmi Raad Pune</span>
+    </div>
   </header>
 
-  <div class="video-stage">
-    <iframe
-      id="ytPlayer"
-      src="https://www.youtube-nocookie.com/embed/hblmFtbyYKQ?autoplay=1&mute=1&loop=1&playlist=hblmFtbyYKQ&controls=1&rel=0&playsinline=1&enablejsapi=1"
-      title="CPR Awareness video"
-      allow="autoplay; encrypted-media; picture-in-picture"
-      allowfullscreen
-    ></iframe>
+  <div class="hero">
+    <div class="video-stage">
+      <iframe
+        id="ytPlayer"
+        src="https://www.youtube-nocookie.com/embed/hblmFtbyYKQ?autoplay=1&mute=1&loop=1&playlist=hblmFtbyYKQ&controls=1&rel=0&playsinline=1&enablejsapi=1"
+        title="CPR Awareness video"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        allowfullscreen
+      ></iframe>
 
-    <button type="button" id="unmuteBtn" class="unmute-btn" aria-pressed="false">
-      🔇 Tap to unmute
-    </button>
-
-    <div class="claim-btn-wrap">
-      <button type="button" id="claimBtn" class="claim-btn">
-        Claim your CPR certificate
+      <button type="button" id="unmuteBtn" class="unmute-btn" aria-pressed="false">
+        🔇 Tap to unmute
       </button>
+
+      <div class="claim-btn-wrap">
+        <button type="button" id="claimBtn" class="claim-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5"/></svg>
+          <span>Claim your CPR certificate</span>
+        </button>
+      </div>
     </div>
+
+    <p class="mute-note">
+      The video starts muted because browsers block unmuted autoplay — tap "Unmute" on the video to hear it.
+    </p>
   </div>
 
-  <p class="mute-note">
-    The video starts muted because browsers block unmuted autoplay — tap "Unmute" on the video to hear it.
-  </p>
-
   <footer class="site-footer">
-    Relieve Foundation &amp; Rotary Club Pune
+    <span class="label">In partnership with</span>
+    <span class="orgs">Revive Heart Foundation &amp; Rotary Club Laxmi Raad Pune</span>
   </footer>
 </div>
 
@@ -424,13 +680,18 @@
           <label id="methodLabel">Delivery method</label>
           <div class="method-group" role="group" aria-labelledby="methodLabel">
             <button type="button" class="method-card" id="methodEmail" data-method="email" aria-pressed="false">
+              <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2.5"/><path d="m2 7 10 6L22 7"/></svg>
               Email
             </button>
             <button type="button" class="method-card" id="methodWhatsapp" data-method="whatsapp" aria-pressed="false" disabled aria-disabled="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.36 7.57L3 20l1.06-5.4A8.5 8.5 0 1 1 21 11.5Z"/></svg>
               WhatsApp
               <span class="tag">Coming soon</span>
             </button>
             <button type="button" class="method-card" id="methodDownload" data-method="download" aria-pressed="false">
+              <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
               Download
             </button>
           </div>
@@ -453,14 +714,18 @@
 
     <!-- SUCCESS STATE -->
     <div id="stateSuccess" class="modal-status success" hidden role="status">
-      <div class="icon" aria-hidden="true">✅</div>
+      <div class="icon-badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      </div>
       <h3 id="successHeading">Success</h3>
       <p id="successMsg"></p>
     </div>
 
     <!-- ERROR STATE -->
     <div id="stateError" class="modal-status error" hidden role="alert">
-      <div class="icon" aria-hidden="true">⚠️</div>
+      <div class="icon-badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4m0 4h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/></svg>
+      </div>
       <h3>Something went wrong</h3>
       <p id="errorMsg"></p>
       <button type="button" class="retry-btn" id="retryBtn">Try again</button>
@@ -764,8 +1029,8 @@
     doc.setFont("helvetica", "bold");
     doc.setFontSize(13);
     doc.setTextColor(20, 39, 59);
-    doc.text("Relieve Foundation", pageW / 2 - 90, 300, { align: "center" });
-    doc.text("Rotary Club Pune", pageW / 2 + 90, 300, { align: "center" });
+    doc.text("Revive Heart Foundation", pageW / 2 - 90, 300, { align: "center" });
+    doc.text("Rotary Club Laxmi Raad Pune", pageW / 2 + 90, 300, { align: "center" });
 
     // Issue date
     doc.setFont("helvetica", "normal");
