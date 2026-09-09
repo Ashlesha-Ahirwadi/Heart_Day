@@ -47,9 +47,13 @@ const app = express();
 // The certificate PDF is base64 in the JSON body; allow some headroom.
 app.use(express.json({ limit: "12mb" }));
 
+// Trimmed defensively: a stray trailing space/newline in the platform's
+// env var UI would otherwise silently break cors's exact-string match.
+const allowedOrigin = (ALLOWED_ORIGIN || "").trim().replace(/\/+$/, "");
+
 app.use(
   cors({
-    origin: ALLOWED_ORIGIN || false,
+    origin: allowedOrigin || false,
     methods: ["POST", "OPTIONS"],
   })
 );
