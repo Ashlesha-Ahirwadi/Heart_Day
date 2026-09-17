@@ -188,39 +188,60 @@
     border-color: rgba(255, 255, 255, 0.36);
   }
 
-  /* Placed below the video on every screen size — never overlaps the
-     footage. Still always visible per §6 (this is a short, single
-     screenful page; nothing scrolls it out of reach). */
+  /* Anchored to the video's top-right corner on every screen size — kept
+     compact so it stays clear of the presenter, who sits center/left in
+     frame, rather than spanning the full width. */
   .claim-btn-wrap {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 18px;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 5;
+  }
+
+  @media (min-width: 480px) {
+    .claim-btn-wrap { top: 16px; right: 16px; }
   }
 
   .claim-btn {
-    width: 100%;
-    max-width: 420px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 9px;
+    gap: 7px;
     background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
     color: #fff;
     border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 999px;
-    padding: 13px 22px;
+    padding: 8px 12px;
     font: inherit;
-    font-size: 0.96rem;
+    font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: -0.01em;
+    white-space: nowrap;
     cursor: pointer;
-    box-shadow: 0 8px 24px rgba(225, 29, 72, 0.45), 0 0 0 0 rgba(225, 29, 72, 0.5);
+    box-shadow: 0 6px 18px rgba(225, 29, 72, 0.45), 0 0 0 0 rgba(225, 29, 72, 0.5);
     animation: pulse-glow 2.4s ease-in-out infinite;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
 
-  .claim-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .claim-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  @media (min-width: 480px) {
+    .claim-btn {
+      padding: 11px 18px;
+      font-size: 0.85rem;
+      gap: 8px;
+    }
+    .claim-btn svg { width: 16px; height: 16px; }
+  }
+
+  @media (min-width: 640px) {
+    .claim-btn {
+      padding: 13px 22px;
+      font-size: 0.96rem;
+      box-shadow: 0 8px 24px rgba(225, 29, 72, 0.45), 0 0 0 0 rgba(225, 29, 72, 0.5);
+    }
+    .claim-btn svg { width: 18px; height: 18px; }
+  }
 
   .claim-btn:hover {
     transform: translateY(-1px);
@@ -616,13 +637,13 @@
       <button type="button" id="unmuteBtn" class="unmute-btn" aria-pressed="false">
         🔇 Tap to unmute
       </button>
-    </div>
 
-    <div class="claim-btn-wrap">
-      <button type="button" id="claimBtn" class="claim-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5"/></svg>
-        <span>Claim your CPR certificate</span>
-      </button>
+      <div class="claim-btn-wrap">
+        <button type="button" id="claimBtn" class="claim-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5"/></svg>
+          <span>Claim your CPR certificate</span>
+        </button>
+      </div>
     </div>
 
     <p class="mute-note">
