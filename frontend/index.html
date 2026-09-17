@@ -65,6 +65,12 @@
     padding: 48px 20px 56px;
   }
 
+  /* Mobile: room at the bottom for the fixed claim-button bar (see
+     .claim-btn-wrap) so it doesn't sit on top of the footer/content. */
+  @media (max-width: 639px) {
+    .page { padding-bottom: 92px; }
+  }
+
   /* ---------- Header ---------- */
   header.site-header {
     text-align: center;
@@ -188,28 +194,48 @@
     border-color: rgba(255, 255, 255, 0.36);
   }
 
+  /* Mobile default: a fixed bar docked to the bottom of the viewport,
+     not overlapping the video itself. Always visible per §6, but no
+     longer covers the footage on narrow screens. */
   .claim-btn-wrap {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    left: 16px;
-    z-index: 5;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    z-index: 50;
     display: flex;
     justify-content: center;
+    padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0px));
+    background: linear-gradient(180deg, transparent 0%, rgba(5, 7, 13, 0.82) 35%, rgba(5, 7, 13, 0.98) 100%);
     pointer-events: none;
   }
 
+  .claim-btn-wrap .claim-btn { width: 100%; justify-content: center; }
+
+  /* Desktop/tablet: revert to the original floating placement over the
+     video's top-right corner, where there's room for it. */
   @media (min-width: 640px) {
     .claim-btn-wrap {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      left: 16px;
+      bottom: auto;
+      z-index: 5;
       justify-content: flex-end;
-      left: auto;
+      padding: 0;
+      background: none;
     }
+
+    .claim-btn-wrap .claim-btn { width: auto; }
   }
 
   .claim-btn {
     pointer-events: auto;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 9px;
     background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
     color: #fff;
